@@ -1,8 +1,18 @@
-FROM maven:3.9.3-eclipse-temurin-11-alpine
+FROM maven:3.9.3-eclipse-temurin-11-alpine as STEP
 
 WORKDIR /opt
 
 RUN mvn clean package 
 
 CMD ["java", "-jar", "app.jar"]
-  
+
+
+FROM eclipse-temurin:11
+
+WORKDIR /home/sales/app
+
+COPY --from=STEP /opt/target/spring-boot-docker.jar  app.jar
+
+ENV server.port=9090
+
+CMD ["java", "-jar", "app.jar"]
