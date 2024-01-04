@@ -2,6 +2,8 @@ FROM maven:3.9.3-eclipse-temurin-11-alpine as STEP
 
 WORKDIR /opt
 
+copy . . 
+
 RUN mvn clean package 
 
 CMD ["java", "-jar", "app.jar"]
